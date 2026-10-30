@@ -4,7 +4,7 @@ import { tools as fileWizTools } from '../../../../client/src/services/toolDefin
 import { requireAuth } from '../../middleware/requireAuth.js';
 
 const router = Router();
-const MODEL = process.env.GEMINI_MODEL || 'gemini-3.8-flash';
+const MODEL = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
 const requests = new Map();
 const summaryRequests = new Map();
 const WINDOW_MS = 60 * 1000;
@@ -69,8 +69,9 @@ router.post('/chat', limitChat, async (req, res) => {
     const toolIds = Array.isArray(selection.toolIds) ? [...new Set(selection.toolIds.filter((id) => allowedToolIds.has(id)))].slice(0, 1) : [];
     const reply = typeof selection.reply === 'string' ? selection.reply.trim().slice(0, 500) : '';
     return res.json({ reply, toolIds });
-  } catch {
-    return res.status(502).json({ error: 'Gemini assistant is temporarily unavailable.' });
+  } catch (error) {
+    console.error('Gemini chat error:', error?.message || error);
+    return res.status(502).json({ error: error?.message || 'Gemini assistant is temporarily unavailable.' });
   }
 });
 
@@ -88,8 +89,9 @@ router.post('/summarize', requireAuth, requirePremium, limitSummary, async (req,
     const summary = textFrom(response);
     if (!summary) return res.status(502).json({ error: 'Gemini returned an empty summary.' });
     return res.json({ summary: summary.slice(0, 6000) });
-  } catch {
-    return res.status(502).json({ error: 'Gemini summarization is temporarily unavailable.' });
+  } catch (error) {
+    console.error('Gemini summarize error:', error?.message || error);
+    return res.status(502).json({ error: error?.message || 'Gemini summarization is temporarily unavailable.' });
   }
 });
 

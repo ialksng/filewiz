@@ -31,7 +31,7 @@ In Google Cloud Console, authorize `https://ialksng.me` as a JavaScript origin. 
 | Variable | Purpose |
 | --- | --- |
 | `APP_ORIGIN` | Password reset link base. Set to `https://ialksng.me/work/projects/filewiz/app` |
-| `GEMINI_MODEL` | Gemini model override; defaults to `gemini-3.8-flash` |
+| `GEMINI_MODEL` | Gemini model override; defaults to `gemini-2.5-flash` |
 | `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASSWORD`, `SMTP_FROM` | SMTP delivery for forgot-password emails; required to deliver reset links |
 | `FILEWIZ_ADMIN_EMAIL` | Email address granted account administration |
 | `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET`, `RAZORPAY_WEBHOOK_SECRET`, `FILEWIZ_PREMIUM_PRICE_PAISE` | Optional premium billing configuration |

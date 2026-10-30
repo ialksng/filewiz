@@ -17,3 +17,4 @@ export default async function handler(req, res) {
     return res.status(503).json({ error: 'FileWiz API is temporarily unavailable. Check the MongoDB connection settings.' });
   }
 }
+
