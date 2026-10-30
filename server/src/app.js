@@ -21,9 +21,9 @@ app.set('trust proxy', 1);
 app.use(helmet({
   contentSecurityPolicy: false,
   crossOriginEmbedderPolicy: false,
-  crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' },
+  crossOriginOpenerPolicy: false,
   crossOriginResourcePolicy: { policy: 'cross-origin' },
-  xFrameOptions: { action: 'deny' },
+  xFrameOptions: false,
 }));
 
 const allowedOrigins = (process.env.CORS_ORIGINS || 'http://localhost:5173,http://127.0.0.1:5173,https://ialksng.me')
@@ -32,13 +32,22 @@ if (process.env.VERCEL_URL) allowedOrigins.push(`https://${process.env.VERCEL_UR
 
 app.use(cors({
   origin(origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
+    if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) return callback(null, true);
     return callback(new Error('Origin not allowed by CORS'));
   },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'OPTIONS'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
+
+// Normalize any subpath prefix so /work/projects/filewiz/app/api/... becomes /api/...
+app.use((req, _res, next) => {
+  if (req.url) {
+    req.url = req.url.replace(/^.*\/api(\/|$)/, '/api$1');
+  }
+  next();
+});
+
 app.use(express.json({ limit: '100kb', verify: (req, _res, buffer) => { req.rawBody = Buffer.from(buffer); } }));
 
 // Health Check
@@ -55,13 +64,10 @@ app.use('/api/links', linkRoutes);
 app.use('/api/ai', aiRoutes);
 app.use('/api/billing', billingRoutes);
 app.use('/api', (_req, res) => res.status(404).json({ error: 'API endpoint not found.' }));
-// app.use('/api/image', imageRoutes); // Future
-// app.use('/api/video', videoRoutes); // Future
 
 // ==========================================
 // SERVE FRONTEND (React Build)
 // ==========================================
-// Adjusted dist path because app.js is now inside /src
 const distPath = path.join(__dirname, '../../client/dist'); 
 app.use(express.static(distPath));
 

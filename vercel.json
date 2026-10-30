@@ -54,8 +54,9 @@
     }
   ],
   "rewrites": [
-    { "source": "/work/projects/filewiz/app/api/:path*", "destination": "/api/:path*" },
-    { "source": "/work/projects/filewiz/api/:path*", "destination": "/api/:path*" },
+    { "source": "/work/projects/filewiz/app/api/:path*", "destination": "/api" },
+    { "source": "/work/projects/filewiz/api/:path*", "destination": "/api" },
+    { "source": "/api/:path*", "destination": "/api" },
     { "source": "/work/projects/filewiz/app/assets/:path*", "destination": "/assets/:path*" },
     { "source": "/work/projects/filewiz/app/manifest.webmanifest", "destination": "/manifest.webmanifest" },
     { "source": "/work/projects/filewiz/app/robots.txt", "destination": "/robots.txt" },
