@@ -1,0 +1,16 @@
+{
+  "id": "/work/projects/filewiz/",
+  "name": "FileWiz — File Tools",
+  "short_name": "FileWiz",
+  "description": "PDF, image, and file tools that work in your browser.",
+  "start_url": "/work/projects/filewiz/",
+  "scope": "/work/projects/filewiz/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#ffffff",
+  "theme_color": "#6c3bff",
+  "icons": [
+    { "src": "/work/projects/filewiz/pwa-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/work/projects/filewiz/pwa-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

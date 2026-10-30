@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /account
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /dashboard
+Sitemap: https://ialksng.me/work/projects/filewiz/sitemap.xml

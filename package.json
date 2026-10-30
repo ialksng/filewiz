@@ -1,0 +1,17 @@
+{
+  "name": "filewiz",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace client",
+    "dev": "npm run dev --workspace client",
+    "api:dev": "npm run dev --workspace server"
+  }
+}
