@@ -8,6 +8,13 @@
       "maxDuration": 60
     }
   },
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/work/projects/filewiz/",
+      "permanent": false
+    }
+  ],
   "headers": [
     {
       "source": "/:path*",

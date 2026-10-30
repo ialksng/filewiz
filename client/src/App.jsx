@@ -120,12 +120,17 @@ function RouteContent() {
 }
 
 export default function App() {
+  const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+  const basename = typeof window !== 'undefined' && window.location.pathname.startsWith(base)
+    ? base
+    : '';
+
   return (
     <LoaderProvider>
       <AuthProvider> 
         <FileProvider>
           <PremiumProvider>
-          <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '')}>
+          <BrowserRouter basename={basename}>
             <RouteContent />
           </BrowserRouter>
           </PremiumProvider>
