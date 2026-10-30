@@ -51,7 +51,10 @@
     "uuid": "^11.1.1"
   },
   "optionalDependencies": {
+    "@img/sharp-linux-x64": "^0.35.5",
     "@rolldown/binding-linux-x64-gnu": "^1.2.14",
-    "@rolldown/binding-linux-x64-musl": "^1.2.14"
+    "@rolldown/binding-linux-x64-musl": "^1.2.14",
+    "@tailwindcss/oxide-linux-x64-gnu": "^4.2.4",
+    "lightningcss-linux-x64-gnu": "^1.33.0"
   }
 }
