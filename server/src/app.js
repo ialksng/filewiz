@@ -12,6 +12,7 @@ import { errorHandler } from './middlewares/errorHandler.js';
 import { uploadRateLimit } from './middlewares/rateLimit.js';
 import billingRoutes from './modules/billing/billing.routes.js';
 import authRoutes from './modules/auth/auth.routes.js';
+import { connectMongo } from './db.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -48,7 +49,28 @@ app.use((req, _res, next) => {
   next();
 });
 
-app.use(express.json({ limit: '100kb', verify: (req, _res, buffer) => { req.rawBody = Buffer.from(buffer); } }));
+let dbConnectionPromise;
+app.use(async (req, res, next) => {
+  // Only connect to DB if endpoint requires it (skip static and basic health)
+  if (req.url.startsWith('/api/') && !req.url.startsWith('/api/status') && !req.url.startsWith('/api/ai/status')) {
+    try {
+      dbConnectionPromise ||= connectMongo();
+      await dbConnectionPromise;
+    } catch (err) {
+      dbConnectionPromise = null;
+      return res.status(503).json({ error: 'Database is temporarily unavailable. Check MONGODB_URI in Vercel settings.' });
+    }
+  }
+  next();
+});
+
+app.use((req, res, next) => {
+  if (req.body && typeof req.body === 'object') {
+    if (!req.rawBody) req.rawBody = Buffer.from(JSON.stringify(req.body));
+    return next();
+  }
+  return express.json({ limit: '100kb', verify: (req, _res, buffer) => { req.rawBody = Buffer.from(buffer); } })(req, res, next);
+});
 
 // Health Check
 app.get('/api/status', (req, res) => {
