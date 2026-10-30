@@ -4,7 +4,7 @@ import { tools as fileWizTools } from '../../../../client/src/services/toolDefin
 import { requireAuth } from '../../middleware/requireAuth.js';
 
 const router = Router();
-const MODEL = process.env.GEMINI_MODEL || 'gemini-3.8-flash';
+const MODEL = (process.env.GEMINI_MODEL && process.env.GEMINI_MODEL !== 'gemini-2.5-flash') ? process.env.GEMINI_MODEL : 'gemini-3.8-flash';
 const requests = new Map();
 const summaryRequests = new Map();
 const WINDOW_MS = 60 * 1000;
@@ -42,29 +42,10 @@ async function requirePremium(req, res, next) {
   return next();
 }
 
-const FALLBACK_MODELS = [
-  process.env.GEMINI_MODEL,
-  'gemini-3.8-flash',
-  'gemini-3.5-flash-lite',
-  'gemini-3.1-flash-lite',
-].filter(Boolean);
-
 async function callGemini(gemini, prompt, isJson = false) {
+  const candidateModels = [MODEL, 'gemini-3.5-flash-lite'].filter((m, i, arr) => m && arr.indexOf(m) === i);
   let lastError;
-  for (const model of FALLBACK_MODELS) {
-    try {
-      const interaction = await gemini.interactions.create({
-        model,
-        input: prompt,
-        ...(isJson ? { response_mime_type: 'application/json' } : {}),
-      });
-      const output = interaction?.output_text?.trim();
-      if (output) return output;
-    } catch (error) {
-      console.warn(`Interactions API with ${model} failed:`, error.message);
-      lastError = error;
-    }
-
+  for (const model of candidateModels) {
     try {
       const response = await gemini.models.generateContent({
         model,
@@ -78,7 +59,7 @@ async function callGemini(gemini, prompt, isJson = false) {
       lastError = error;
     }
   }
-  throw lastError || new Error('All Gemini model invocations failed.');
+  throw lastError || new Error('Gemini failed to generate content.');
 }
 
 function textFrom(response) {
