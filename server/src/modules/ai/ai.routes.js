@@ -42,25 +42,43 @@ async function requirePremium(req, res, next) {
   return next();
 }
 
-async function callGemini(gemini, prompt, isJson = false) {
-  try {
-    const interaction = await gemini.interactions.create({
-      model: MODEL,
-      input: prompt,
-      ...(isJson ? { response_mime_type: 'application/json' } : {}),
-    });
-    const output = interaction?.output_text?.trim();
-    if (output) return output;
-  } catch (error) {
-    console.warn('Interactions API call failed, trying generateContent fallback:', error.message);
-  }
+const FALLBACK_MODELS = [
+  process.env.GEMINI_MODEL,
+  'gemini-3.8-flash',
+  'gemini-3.5-flash-lite',
+  'gemini-3.1-flash-lite',
+].filter(Boolean);
 
-  const response = await gemini.models.generateContent({
-    model: MODEL,
-    contents: prompt,
-    ...(isJson ? { config: { responseMimeType: 'application/json' } } : {}),
-  });
-  return textFrom(response);
+async function callGemini(gemini, prompt, isJson = false) {
+  let lastError;
+  for (const model of FALLBACK_MODELS) {
+    try {
+      const interaction = await gemini.interactions.create({
+        model,
+        input: prompt,
+        ...(isJson ? { response_mime_type: 'application/json' } : {}),
+      });
+      const output = interaction?.output_text?.trim();
+      if (output) return output;
+    } catch (error) {
+      console.warn(`Interactions API with ${model} failed:`, error.message);
+      lastError = error;
+    }
+
+    try {
+      const response = await gemini.models.generateContent({
+        model,
+        contents: prompt,
+        ...(isJson ? { config: { responseMimeType: 'application/json' } } : {}),
+      });
+      const output = textFrom(response);
+      if (output) return output;
+    } catch (error) {
+      console.warn(`generateContent with ${model} failed:`, error.message);
+      lastError = error;
+    }
+  }
+  throw lastError || new Error('All Gemini model invocations failed.');
 }
 
 function textFrom(response) {
