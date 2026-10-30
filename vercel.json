@@ -11,7 +11,17 @@
   "redirects": [
     {
       "source": "/",
-      "destination": "/work/projects/filewiz/",
+      "destination": "/work/projects/filewiz/app/",
+      "permanent": false
+    },
+    {
+      "source": "/work/projects/filewiz",
+      "destination": "/work/projects/filewiz/app/",
+      "permanent": false
+    },
+    {
+      "source": "/work/projects/filewiz/",
+      "destination": "/work/projects/filewiz/app/",
       "permanent": false
     }
   ],
@@ -27,37 +37,38 @@
       ]
     },
     {
-      "source": "/work/projects/filewiz/assets/:path*",
+      "source": "/work/projects/filewiz/app/assets/:path*",
       "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
     },
     {
-      "source": "/work/projects/filewiz/index.html",
+      "source": "/work/projects/filewiz/app/index.html",
       "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
     },
     {
-      "source": "/work/projects/filewiz/sw.js",
+      "source": "/work/projects/filewiz/app/sw.js",
       "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
     },
     {
-      "source": "/work/projects/filewiz/sitemap.xml",
+      "source": "/work/projects/filewiz/app/sitemap.xml",
       "headers": [{ "key": "Content-Type", "value": "application/xml; charset=utf-8" }]
     }
   ],
   "rewrites": [
+    { "source": "/work/projects/filewiz/app/api/:path*", "destination": "/api/:path*" },
     { "source": "/work/projects/filewiz/api/:path*", "destination": "/api/:path*" },
-    { "source": "/work/projects/filewiz/assets/:path*", "destination": "/assets/:path*" },
-    { "source": "/work/projects/filewiz/manifest.webmanifest", "destination": "/manifest.webmanifest" },
-    { "source": "/work/projects/filewiz/robots.txt", "destination": "/robots.txt" },
-    { "source": "/work/projects/filewiz/sitemap.xml", "destination": "/sitemap.xml" },
-    { "source": "/work/projects/filewiz/sw.js", "destination": "/sw.js" },
-    { "source": "/work/projects/filewiz/demo.mp4", "destination": "/demo.mp4" },
-    { "source": "/work/projects/filewiz/loader.mp4", "destination": "/loader.mp4" },
-    { "source": "/work/projects/filewiz/logoWRB.png", "destination": "/logoWRB.png" },
-    { "source": "/work/projects/filewiz/preview1.png", "destination": "/preview1.png" },
-    { "source": "/work/projects/filewiz/pwa-192.png", "destination": "/pwa-192.png" },
-    { "source": "/work/projects/filewiz/pwa-512.png", "destination": "/pwa-512.png" },
-    { "source": "/work/projects/filewiz/", "destination": "/index.html" },
-    { "source": "/work/projects/filewiz", "destination": "/index.html" },
-    { "source": "/work/projects/filewiz/:path*", "destination": "/index.html" }
+    { "source": "/work/projects/filewiz/app/assets/:path*", "destination": "/assets/:path*" },
+    { "source": "/work/projects/filewiz/app/manifest.webmanifest", "destination": "/manifest.webmanifest" },
+    { "source": "/work/projects/filewiz/app/robots.txt", "destination": "/robots.txt" },
+    { "source": "/work/projects/filewiz/app/sitemap.xml", "destination": "/sitemap.xml" },
+    { "source": "/work/projects/filewiz/app/sw.js", "destination": "/sw.js" },
+    { "source": "/work/projects/filewiz/app/demo.mp4", "destination": "/demo.mp4" },
+    { "source": "/work/projects/filewiz/app/loader.mp4", "destination": "/loader.mp4" },
+    { "source": "/work/projects/filewiz/app/logoWRB.png", "destination": "/logoWRB.png" },
+    { "source": "/work/projects/filewiz/app/preview1.png", "destination": "/preview1.png" },
+    { "source": "/work/projects/filewiz/app/pwa-192.png", "destination": "/pwa-192.png" },
+    { "source": "/work/projects/filewiz/app/pwa-512.png", "destination": "/pwa-512.png" },
+    { "source": "/work/projects/filewiz/app/", "destination": "/index.html" },
+    { "source": "/work/projects/filewiz/app", "destination": "/index.html" },
+    { "source": "/work/projects/filewiz/app/:path*", "destination": "/index.html" }
   ]
 }

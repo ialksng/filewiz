@@ -1,5 +1,5 @@
-const CACHE_NAME = 'filewiz-shell-v5';
-const BASE_PATH = '/work/projects/filewiz/';
+const CACHE_NAME = 'filewiz-shell-v6';
+const BASE_PATH = '/work/projects/filewiz/app/';
 const APP_SHELL = [BASE_PATH, `${BASE_PATH}index.html`, `${BASE_PATH}manifest.webmanifest`, `${BASE_PATH}pwa-192.png`, `${BASE_PATH}pwa-512.png`];
 
 self.addEventListener('install', (event) => {

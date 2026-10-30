@@ -2,7 +2,7 @@ import { writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { tools } from '../src/services/toolDefinitions.js';
 
-const siteOrigin = 'https://ialksng.me/work/projects/filewiz';
+const siteOrigin = 'https://ialksng.me/work/projects/filewiz/app';
 const typeForCategory = { PDF: 'pdf', Image: 'image', Utilities: 'utility' };
 const canonicalPathFor = (tool) => tool.category === 'Convert'
   ? `/convert/${tool.id}`

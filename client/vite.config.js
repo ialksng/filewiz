@@ -8,7 +8,7 @@ const onnxWebgpuExternalWasm = fileURLToPath(
 )
 
 export default defineConfig({
-  base: '/work/projects/filewiz/',
+  base: '/work/projects/filewiz/app/',
   resolve: {
     // Keep the 25+ MiB ONNX WASM binary out of deployment assets without changing
     // package export resolution for every other dependency in the app.

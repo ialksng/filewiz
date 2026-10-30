@@ -1,6 +1,6 @@
 # Deploy FileWiz on Vercel
 
-The repository is configured as one Vercel project. Vercel builds the React app and serves the Express API from the same deployment, so the browser uses `/work/projects/filewiz/api/...` on the same domain. The app's public URL is `https://ialksng.me/work/projects/filewiz/`.
+The repository is configured as one Vercel project. Vercel builds the React app and serves the Express API from the same deployment, so the browser uses `/work/projects/filewiz/app/api/...` on the same domain. The app's public URL is `https://ialksng.me/work/projects/filewiz/app/`.
 
 ## Create the Vercel project
 
@@ -30,7 +30,7 @@ In Google Cloud Console, authorize `https://ialksng.me` as a JavaScript origin. 
 
 | Variable | Purpose |
 | --- | --- |
-| `APP_ORIGIN` | Password reset link base. Set to `https://ialksng.me/work/projects/filewiz` |
+| `APP_ORIGIN` | Password reset link base. Set to `https://ialksng.me/work/projects/filewiz/app` |
 | `GEMINI_MODEL` | Gemini model override; defaults to `gemini-3.8-flash` |
 | `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASSWORD`, `SMTP_FROM` | SMTP delivery for forgot-password emails; required to deliver reset links |
 | `FILEWIZ_ADMIN_EMAIL` | Email address granted account administration |

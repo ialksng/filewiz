@@ -1,7 +1,7 @@
 const configuredBase = import.meta.env.VITE_API_BASE_URL?.trim();
 
 function normalizeApiBase(value) {
-  if (!value) return import.meta.env.DEV ? 'http://localhost:5001/api' : '/work/projects/filewiz/api';
+  if (!value) return import.meta.env.DEV ? 'http://localhost:5001/api' : '/work/projects/filewiz/app/api';
 
   if (value.startsWith('/')) return value.replace(/\/+$/, '');
 
